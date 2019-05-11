@@ -1,4 +1,4 @@
-module github.com/endevel/odin/config
+module github.com/endevelcz/odin/config v0.0.1
 
 go 1.12
 
