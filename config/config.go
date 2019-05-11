@@ -8,12 +8,10 @@ import (
 
 // AppConfig drzi konfiguraci aplikace
 type AppConfig struct {
-	Port             int
-	ServiceName      string
-	DbURL            string
-	DbMaxConnections int
-	JaegerCollector  string
-	JaegerAgent      string
+	Port            int
+	ServiceName     string
+	JaegerCollector string
+	JaegerAgent     string
 }
 
 // Init nacte konfiguraci
@@ -29,10 +27,8 @@ func (s *AppConfig) Init(envPrefix string, serviceName string) error {
 	}
 
 	MapString(&s.ServiceName, "service_name", serviceName)
-
 	MustMapInt(&s.Port, "port")
-	MustMapString(&s.DbURL, "db_url")
-	MustMapInt(&s.DbMaxConnections, "db_max_connections")
+
 	MustMapString(&s.JaegerCollector, "jaeger_collector")
 	MustMapString(&s.JaegerAgent, "jaeger_agent")
 
