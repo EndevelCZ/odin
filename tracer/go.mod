@@ -1,4 +1,4 @@
-module github.com/endevelcz/odin/tracer
+module github.com/endevelcz/odin/tracer v0.0.1
 
 go 1.12
 
