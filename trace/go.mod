@@ -1,4 +1,4 @@
-module github.com/endevelcz/odin/jaeger
+module github.com/endevelcz/odin/trace
 
 go 1.12
 
