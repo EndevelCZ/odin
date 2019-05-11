@@ -28,18 +28,19 @@ func (s *AppConfig) Init(envPrefix string, serviceName string) error {
 		return err
 	}
 
-	mapString(&s.ServiceName, "service_name", serviceName)
+	MapString(&s.ServiceName, "service_name", serviceName)
 
-	mustMapInt(&s.Port, "port")
-	mustMapString(&s.DbURL, "db_url")
-	mustMapInt(&s.DbMaxConnections, "db_max_connections")
-	mustMapString(&s.JaegerCollector, "jaeger_collector")
-	mustMapString(&s.JaegerAgent, "jaeger_agent")
+	MustMapInt(&s.Port, "port")
+	MustMapString(&s.DbURL, "db_url")
+	MustMapInt(&s.DbMaxConnections, "db_max_connections")
+	MustMapString(&s.JaegerCollector, "jaeger_collector")
+	MustMapString(&s.JaegerAgent, "jaeger_agent")
 
 	return nil
 }
 
-func mapString(target *string, envKey string, defaultValue string) {
+// MapString Do cílového pole načte string. Pokud nenajde příslušné nastavení, použije defaultValue
+func MapString(target *string, envKey string, defaultValue string) {
 	v := viper.GetString(envKey)
 	if v == "" {
 		v = defaultValue
@@ -47,7 +48,9 @@ func mapString(target *string, envKey string, defaultValue string) {
 
 	*target = v
 }
-func mapInt(target *int, envKey string, defaultValue int) {
+
+// MapInt Do cílového pole načte int. Pokud nenajde příslušné nastavení, použije defaultValue
+func MapInt(target *int, envKey string, defaultValue int) {
 	v := viper.GetInt(envKey)
 	if v == 0 {
 		v = defaultValue
@@ -55,14 +58,17 @@ func mapInt(target *int, envKey string, defaultValue int) {
 	*target = v
 }
 
-func mustMapString(target *string, envKey string) {
+// MustMapString Do cílového pole načte string. Pokud nenajde příslušné nastavení, zpanikaří
+func MustMapString(target *string, envKey string) {
 	v := viper.GetString(envKey)
 	if v == "" {
 		panic(fmt.Sprintf("Chybi env var: %v", envKey))
 	}
 	*target = v
 }
-func mustMapInt(target *int, envKey string) {
+
+// MustMapInt Do cílového pole načte int. Pokud nenajde příslušné nastavení, zpanikaří
+func MustMapInt(target *int, envKey string) {
 	v := viper.GetInt(envKey)
 	if v <= 0 {
 		panic(fmt.Sprintf("Chybi env var: %v", envKey))
