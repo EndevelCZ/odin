@@ -8,6 +8,7 @@ import (
 
 // AppConfig drzi konfiguraci aplikace
 type AppConfig struct {
+	EnvPrefix       string
 	Port            int
 	ServiceName     string
 	JaegerCollector string
@@ -15,18 +16,25 @@ type AppConfig struct {
 }
 
 // Init nacte konfiguraci
-func (s *AppConfig) Init(envPrefix string, serviceName string) error {
+func (s *AppConfig) Init() error {
 	viper.SetConfigType("yaml")
 	viper.SetConfigName("config")
 	viper.AddConfigPath("config")
-	viper.SetEnvPrefix(envPrefix)
+
+	if s.EnvPrefix != "" {
+		viper.SetEnvPrefix(s.EnvPrefix)
+	}
+
 	viper.AutomaticEnv()
 
 	if err := viper.ReadInConfig(); err != nil {
 		return err
 	}
 
-	MapString(&s.ServiceName, "service_name", serviceName)
+	if s.ServiceName == "" {
+		MustMapString(&s.ServiceName, "service_name")
+	}
+
 	MustMapInt(&s.Port, "port")
 
 	MustMapString(&s.JaegerCollector, "jaeger_collector")
